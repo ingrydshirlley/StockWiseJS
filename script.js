@@ -93,13 +93,20 @@ async function iniciarScanner() {
     Quagga.onDetected(async (data) => {
         let barcode = data.codeResult.code;
         output.innerText = `Código: ${barcode}\nBuscando informações...`;
-
+    
+        document.querySelector(".video-container").classList.add("scanning");
+    
         let detalhes = await buscarProdutoApi(barcode);
         output.innerText = `Código: ${barcode}\n${detalhes}`;
-
+    
+        setTimeout(() => {
+            document.querySelector(".video-container").classList.remove("scanning");
+        }, 2000);
+    
         Quagga.stop();
         setTimeout(() => Quagga.start(), 3000);
     });
+    
 }
 
 // Chama as funções na ordem
